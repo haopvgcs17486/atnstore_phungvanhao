@@ -1,0 +1,170 @@
+<%- include('partials/header') -%>
+
+<style>
+    h5{
+  text-align: center;
+  }
+* {
+	margin: 0;
+	padding: 0;
+	list-style-type: none;
+}
+body {
+	background: rgb(255, 255, 255);
+}
+ul {
+	display: flex;
+	width: 100%;
+	
+	margin: auto;
+	background-color: skyblue;
+	justify-content: space-between;
+	text-align: center;
+}   
+li {
+	
+	text-transform: uppercase;
+	cursor: pointer;
+	color: #ebebeb;
+	min-width: 80px;
+	margin: auto;
+}
+
+li:hover {
+	background-image: url("https://scottyzen.sirv.com/Images/v/button.png");
+	background-size: 100% 100%;
+	color: #27262c;
+	animation: spring 300ms ease-out;
+	text-shadow: 0 -1px 0 #ef816c;
+	font-weight: bold;
+}
+li:active {
+	transform: translateY(4px);
+}
+
+@keyframes spring {
+	15% {
+		-webkit-transform-origin: center center;
+		-webkit-transform: scale(1.2, 1.1);
+	}
+	40% {
+		-webkit-transform-origin: center center;
+		-webkit-transform: scale(0.95, 0.95);
+	}
+	75% {
+		-webkit-transform-origin: center center;
+		-webkit-transform: scale(1.05, 1);
+	}
+	100% {
+		-webkit-transform-origin: center center;
+		-webkit-transform: scale(1, 1);
+	}
+
+}
+
+</style>
+<ul>
+	<li onclick='window.location.href="/"'; style="padding:1rem 2rem 1.15rem";>Home</li>
+	<li onclick='window.location.href="/products"'; style="padding:1rem 2rem 1.15rem";>Product</li>
+	<li onclick='window.location.href="/staffs"'; style="padding:1rem 2rem 1.15rem";>Staff</li>
+    <li onclick='window.location.href="/order"'; style="padding:1rem 2rem 1.15rem";>Order</li>
+    <li onclick='window.location.href="/payment"'; style="padding:1rem 2rem 1.15rem";>Payment</li>
+    <p><a href="/login">Login</a></p>
+    <% if ( username ) { %>
+        <div style="color: #2a38ff; text-align: left;">
+            <br><P> <%=username%> </P>
+        </div>
+    <% }  %>
+</ul>
+<HR>
+    <div class="alert alert-warning">
+      <H1>TẠO HÓA ĐƠN BÁN HÀNG</H1>
+    </div>
+    <div class="col-sm-4">
+        <div class="row">
+            <H3>Giỏ Hàng</H3>
+        </div>
+        <div class="row" id="giohang">
+            <table width="100%" id="giohangTab" style="border-width: 5px;border-color: rgb(33, 158, 81);padding-bottom: 15px;">
+                    
+            </table>
+        </div>
+                
+            <form action="/payment">
+            <input  name="dssp" id="dssp" type="hidden" value="">
+            <button type="button" class="btn btn-success" onclick="submit()">Thanh toán</button>
+            </form>
+    </div>  
+<HR>         
+<% for (var i = 0; i < productlist.length; i++) { %>
+<div class="container mt-5 mb-5">
+    <div class="d-flex justify-content-center row">
+        <div class="col-md-10">
+            <div class="row p-2 bg-white border rounded">
+                <div class="col-md-3 mt-1"><img width="300px" height="200px" src="/images/<%= productlist[i].urlImg%>"></div>
+                <div class="col-md-6 mt-1">
+                <h5><%= productlist[i].Name %><h5>                                 
+                <h5>Imformation:<br>&emsp; <%= productlist[i].Information%><br><br></h5>
+                </div>
+                <div class="align-items-center align-content-center col-md-3 border-left mt-1">
+                <div class="d-flex flex-row align-items-center">
+                    <h4 class="mr-1">Price: <%= productlist[i].Price%>VND</h4>
+                </div>                           
+                <div class="d-flex flex-column mt-4">
+                
+                <button class="btn btn-outline-primary btn-sm mt-2" type="button" onclick="themvao('<%= productlist[i].Name %>','<%= productlist[i]._id %>',  '<%= productlist[i].Price%>' )" >Add to Cart</button>
+                         
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>   
+</div>
+                   
+<% } %>
+        
+      
+
+<script>
+var dsspmua = "";
+var giohang = {};
+    function addGioHang(xID, xName, xPrice) {
+        var hangthem = giohang[xID];
+        console.log(hangthem);
+        if (hangthem) {
+            hangthem["soluong"] += 1
+        } else {
+            hangthem = { "ten" : xName, "gia" : xPrice, "soluong" : 1};
+        }
+        giohang[xID] = hangthem;
+        console.log(hangthem);
+    }
+
+
+    function themvao(xID, xName, xPrice) {
+        //alert(xID + "  " + xName);
+        var x = document.getElementById("giohangTab");
+        var ds = document.getElementById("dssp");
+        /// ADD
+        addGioHang(xID, xName, xPrice);
+        /// show list
+        var xkeys = Object.keys(giohang);
+        var showlist = "";
+        dsspmua = "";
+        for(j=0; j<xkeys.length; j++)
+        {
+            dsspmua += xkeys[j] + "_" + giohang[ xkeys[j] ]["soluong"] + "_" + giohang[ xkeys[j] ]["gia"] + "_";
+            showlist += "<tr> <td> " 
+                + giohang[ xkeys[j] ]["ten"] 
+                + " </td> <td> "  + giohang[ xkeys[j] ]["soluong"] + " </td> <td> "
+                + giohang[ xkeys[j] ]["gia"] + " </td></tr>";
+        };
+        x.innerHTML = showlist;
+        ds.value = dsspmua;
+    }
+
+
+
+</script>
+
+<%- include('partials/footer') -%>

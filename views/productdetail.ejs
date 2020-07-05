@@ -1,0 +1,88 @@
+<%- include('partials/header') -%>
+<style>
+  
+  h5{
+  text-align: center;
+  }
+* {
+	margin: 0;
+	padding: 0;
+	list-style-type: none;
+}
+body {
+	background: rgb(255, 255, 255);
+}
+ul {
+	display: flex;
+	width: 100%;
+	
+	margin: auto;
+	background-color: skyblue;
+	justify-content: space-between;
+	text-align: center;
+}   
+li {
+	
+	text-transform: uppercase;
+	cursor: pointer;
+	color: #ebebeb;
+	min-width: 80px;
+	margin: auto;
+}
+
+li:hover {
+	background-image: url("https://scottyzen.sirv.com/Images/v/button.png");
+	background-size: 100% 100%;
+	color: #27262c;
+	animation: spring 300ms ease-out;
+	text-shadow: 0 -1px 0 #ef816c;
+	font-weight: bold;
+}
+li:active {
+	transform: translateY(4px);
+}
+
+@keyframes spring {
+	15% {
+		-webkit-transform-origin: center center;
+		-webkit-transform: scale(1.2, 1.1);
+	}
+	40% {
+		-webkit-transform-origin: center center;
+		-webkit-transform: scale(0.95, 0.95);
+	}
+	75% {
+		-webkit-transform-origin: center center;
+		-webkit-transform: scale(1.05, 1);
+	}
+	100% {
+		-webkit-transform-origin: center center;
+		-webkit-transform: scale(1, 1);
+	}
+
+}
+</style>
+
+<ul>
+	<li onclick='window.location.href="/"'; style="padding:1rem 2rem 1.15rem";>Home</li>
+	<li onclick='window.location.href="/products"'; style="padding:1rem 2rem 1.15rem";>Product</li>
+	<li onclick='window.location.href="/staffs"'; style="padding:1rem 2rem 1.15rem";>Staff</li>
+  <li onclick='window.location.href="/order"'; style="padding:1rem 2rem 1.15rem";>Order</li>
+    
+
+</ul>
+<HR>
+<div class="alert alert-primary">
+  <H1><%=Name %></H1>
+</div>
+<HR>
+
+
+<div class="card" style="width: fit-content; border: 1px solid #000000; box-shadow: 1px 1px; margin: 0 auto; float: none; margin-bottom: 10px;" >
+  <img class="card-img-top" src="/images/<%= urlImg%>" alt="Card image cap">
+  <div class="card-body">
+    <p class="card-text">Information: <%= Information%></p>
+  </div>
+</div>
+
+<%- include('partials/footer') -%>
